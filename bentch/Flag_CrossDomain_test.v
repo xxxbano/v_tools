@@ -13,8 +13,8 @@ module Flag_CrossDomain_test();
 	initial clkB = 0;
 	initial FlagIn = 0;
 
-	always #10 clkA = !clkA;
-	always #20 clkB = !clkB;
+	always #20 clkA = !clkA;
+	always #10 clkB = !clkB;
 
 
 	Flag_CrossDomain i_fc(
@@ -25,8 +25,13 @@ module Flag_CrossDomain_test();
 	);
 
 	initial begin
-		#100 FlagIn = 1;
-		#40 FlagIn = 0;
+
+		#100;
+		@(negedge clkA) FlagIn = 1;
+		@(negedge clkA) FlagIn = 0;
+		#100;
+		@(negedge clkA) FlagIn = 1;
+		@(negedge clkA) FlagIn = 0;
 		#300 $finish;
 	end
 
