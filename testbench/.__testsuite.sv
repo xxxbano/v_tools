@@ -9,16 +9,19 @@ module __testsuite;
   // These are the unit tests that we
   // want included in this testsuite
   //===================================
-  Flag_CrossDomain_unit_test Flag_CrossDomain_ut();
+  fifo_unit_test fifo_ut();
+  lifo_unit_test lifo_ut();
 
 
   //===================================
   // Build
   //===================================
   function void build();
-    Flag_CrossDomain_ut.build();
+    fifo_ut.build();
+    lifo_ut.build();
     svunit_ts = new(name);
-    svunit_ts.add_testcase(Flag_CrossDomain_ut.svunit_ut);
+    svunit_ts.add_testcase(fifo_ut.svunit_ut);
+    svunit_ts.add_testcase(lifo_ut.svunit_ut);
   endfunction
 
 
@@ -27,7 +30,8 @@ module __testsuite;
   //===================================
   task run();
     svunit_ts.run();
-    Flag_CrossDomain_ut.run();
+    fifo_ut.run();
+    lifo_ut.run();
     svunit_ts.report();
   endtask
 

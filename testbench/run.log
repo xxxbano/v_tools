@@ -1,0 +1,46 @@
+# vsim -do "run -all; quit" -l run.log -lib work -c -sdfnoerror testrunner 
+# Start time: 22:12:38 on Aug 24,2019
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.3 Jan  6 2014 Linux 4.9.0-0.bpo.9-amd64
+# //
+# //  Copyright 1991-2014 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Loading sv_std.std
+# Loading work.svunit_pkg(fast)
+# Loading work.testrunner(fast)
+# run -all 
+# INFO:  [0][__ts]: Registering Unit Test Case fifo_ut
+# INFO:  [0][__ts]: Registering Unit Test Case lifo_ut
+# INFO:  [0][testrunner]: Registering Test Suite __ts
+# INFO:  [0][__ts]: RUNNING
+# INFO:  [0][fifo_ut]: RUNNING
+# INFO:  [0][fifo_ut]: test_rst::RUNNING
+# INFO:  [40][fifo_ut]: test_rst::PASSED
+# INFO:  [40][fifo_ut]: test_write_read_single_data::RUNNING
+# INFO:  [640][fifo_ut]: test_write_read_single_data::PASSED
+# INFO:  [640][fifo_ut]: test_write_read_full::RUNNING
+# INFO:  [970][fifo_ut]: test_write_read_full::PASSED
+# INFO:  [970][fifo_ut]: test_error::RUNNING
+# INFO:  [1330][fifo_ut]: test_error::PASSED
+# INFO:  [1330][lifo_ut]: RUNNING
+# INFO:  [1330][lifo_ut]: test_rst::RUNNING
+# INFO:  [1370][lifo_ut]: test_rst::PASSED
+# INFO:  [1370][lifo_ut]: test_write_read_single_data::RUNNING
+# INFO:  [1570][lifo_ut]: test_write_read_single_data::PASSED
+# INFO:  [1570][lifo_ut]: test_write_read_full_stack::RUNNING
+# INFO:  [1730][lifo_ut]: test_write_read_full_stack::PASSED
+# INFO:  [1730][lifo_ut]: test_error::RUNNING
+# INFO:  [1930][lifo_ut]: test_error::PASSED
+# INFO:  [1930][fifo_ut]: PASSED (4 of 4 tests passing)
+# INFO:  [1930][lifo_ut]: PASSED (4 of 4 tests passing)
+# 
+# INFO:  [1930][__ts]: PASSED (2 of 2 testcases passing)
+# 
+# INFO:  [1930][testrunner]: PASSED (1 of 1 suites passing) [SVUnit v3.26]
+# ** Note: $finish    : .testrunner.sv(40)
+#    Time: 1930 ns  Iteration: 1  Instance: /testrunner
