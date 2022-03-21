@@ -1,0 +1,14 @@
+[options]
+mode bmc
+depth 100
+
+[engines]
+smtbmc
+
+# test
+[script]
+read -formal graycode.v
+prep -top graycode 
+
+[files]
+graycode.v

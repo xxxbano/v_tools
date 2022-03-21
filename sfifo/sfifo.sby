@@ -1,0 +1,14 @@
+[options]
+mode bmc
+depth 100
+
+[engines]
+smtbmc
+
+[script]
+
+read -formal sfifo.v
+prep -top sfifo
+
+[files]
+sfifo.v

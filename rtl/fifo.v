@@ -1,17 +1,38 @@
-////////////////////////
-// v0.1 2019-08-24 by Zhengfan Xia
-////////////////////////
+////////////////////////////////////////////
+// Project: synchronous FIFO
+//
+// Purpose:
+//
+// Specification:
+//  DW: data width
+//  FD: FIFO depth 
+// 	wr: high when data on wdata valid else low
+// 	rd: high when data on rdata valid else low
+// 	count: show data count in FIFO (e.g. threshold control)
+// 	wdat: write data
+// 	rdat: read data
+// 	full: high when FIFO is full else low
+// 	empty: high when FIFO is empty else low
+// 	overflow: high when FIFO is full and still writing data into FIFO, else low
+// 	underflow: high when FIFO is empty and still reading data from FIFO, else low
+//
+// Creator: Zhengfan Xia
+//
+// Version:
+// 		v0.1 initial design 20190824 
+// 		v0.2 formal verification 20220317
+////////////////////////////////////////////
 module fifo #(
-	parameter DSIZE = 8,
-	parameter MSIZE = 3
+	parameter DW = 8,
+	parameter FD = 3,
 ) (
-	input wire rst,
-	input wire clk,
-	input wire wr,
-	input wire rd,
-	input wire [DSIZE-1:0] wdata,
-	output reg [DSIZE-1:0] rdata,
-	output reg [MSIZE:0] count,
+	input  wire rst,
+	input  wire clk,
+	input  wire wr,
+	input  wire rd,
+	input  wire [DW-1:0] wdat,
+	output reg  [DW-1:0] rdat,
+	output wire [FD:0] count,
 	output wire full,
 	output wire empty,
 	output wire overflow,
@@ -19,14 +40,14 @@ module fifo #(
 );
 
 
-	reg [DSIZE-1:0] m[0:(1<<MSIZE)-1];
-	reg [MSIZE:0] wr_cnt;
-	reg [MSIZE:0] rd_cnt;
+	reg [DW-1:0] mem[0:(1<<FD)-1];
+	reg [FD:0] wr_cnt;
+	reg [FD:0] rd_cnt;
 	wire equal;
 
-	assign equal = wr_cnt[MSIZE-1:0] == rd_cnt[MSIZE-1:0];
-	assign empty = ~(wr_cnt[MSIZE]^rd_cnt[MSIZE]) & equal;
-	assign full = (wr_cnt[MSIZE]^rd_cnt[MSIZE]) & equal;
+	assign equal = wr_cnt[FD-1:0] == rd_cnt[FD-1:0];
+	assign empty = ~(wr_cnt[FD]^rd_cnt[FD]) & equal;
+	assign full = (wr_cnt[FD]^rd_cnt[FD]) & equal;
 	assign overflow = full & wr;
 	assign underflow = empty & rd;
 	assign count = wr_cnt - rd_cnt;
@@ -43,14 +64,36 @@ module fifo #(
 
 	// stand
 	always @(posedge clk) begin
-		if(wr) m[wr_cnt[MSIZE-1:0]] <= wdata; 
-		rdata <= m[rd_cnt[MSIZE-1:0]];
+		if(wr) mem[wr_cnt[FD-1:0]] <= wdat; 
+		rdat <= mem[rd_cnt[FD-1:0]];
 	end
+
 	// first word fall through 
 	//always @(posedge clk) begin
-	//	if(wr) m[wr_cnt[MSIZE-1:0]] <= wdata; 
+	//	if(wr) mem[wr_cnt[FD-1:0]] <= wdat; 
 	//end
-	//assign rdata = m[rd_cnt[MSIZE-1:0]];
+	//assign rdat = mem[rd_cnt[FD-1:0]];
 
+// To keep formal verification logic from being synthesized
+`ifdef FORMAL
+
+	always @(*)
+		//assert(count <= (1<<FD)-1);
+		assert(count <= (1<<FD)-10);
+
+	always @(*) begin
+		if(full) assert(wr);
+		if(empty) assert(rd);
+		if(count==0) begin
+			assert(empty);
+			if(rd) assert(underflow);
+		end
+		if(count==(1<<FD)-1) begin
+			assert(full);
+			if(wr) assert(overflow);
+		end
+	end
+
+`endif
 
 endmodule

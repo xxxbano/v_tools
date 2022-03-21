@@ -1,0 +1,14 @@
+[options]
+mode bmc
+depth 100
+
+[engines]
+smtbmc
+
+[script]
+
+read -formal lifo.v
+prep -top lifo
+
+[files]
+lifo.v
